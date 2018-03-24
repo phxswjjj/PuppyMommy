@@ -20,7 +20,7 @@ namespace EDC.Configuration
             if (element == null)
                 throw new ArgumentNullException("element");
 
-            return ((DogSection)element).Watch;
+            return ((DogSection)element).Name;
         }
     }
 }

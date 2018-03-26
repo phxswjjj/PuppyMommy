@@ -79,9 +79,9 @@
     <Compile Include="Feeder\ResultType.cs" />
     <Compile Include="Feeder\SimpleFeeder.cs" />
     <Compile Include="Job\SimpleJob.cs" />
-    <Compile Include="Kennel\Dog.cs" />
-    <Compile Include="Kennel\Sniff.cs" />
     <Compile Include="Loader\ILoader.cs" />
+    <Compile Include="Loader\LoaderBase.cs" />
+    <Compile Include="Loader\NikonLoader.cs" />
     <Compile Include="Loader\ResultType.cs" />
     <Compile Include="Loader\SimpleLoader.cs" />
     <Compile Include="Program.cs" />

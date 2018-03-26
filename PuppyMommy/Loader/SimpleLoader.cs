@@ -7,7 +7,7 @@ using EDC.Common;
 
 namespace EDC.Loader
 {
-    public class SimpleLoader : ILoader
+    public class SimpleLoader : LoaderBase, ILoader
     {
         public ResultType ParseFile(string filePath, out FileResultBase fileResult)
         {

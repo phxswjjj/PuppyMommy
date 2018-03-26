@@ -11,18 +11,16 @@ namespace EDC.Job
     public class SimpleJob : IJob
     {
         public const string JOBDATAKEY_DOG = "Dog";
-        public Task Execute(IJobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             var dog = (Configuration.DogSection)context.JobDetail.JobDataMap[JOBDATAKEY_DOG];
-            Console.WriteLine($"Dog {dog.Name} is Running...");
+            Console.WriteLine("Dog {0} is Running...", dog.Name);
 
             //do something
-            var waitSecs = new Random().Next(10) + 10;
+            var waitSecs = new Random().Next(5) + 3;
             System.Threading.Thread.Sleep(waitSecs * 1000);
 
-            Console.WriteLine($"Dog {dog.Name} is Stopped");
-            
-            return null;
+            Console.WriteLine("Dog {0} is Stopped", dog.Name);
         }
     }
 }

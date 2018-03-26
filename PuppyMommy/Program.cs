@@ -23,21 +23,20 @@ namespace EDC
             }
         }
 
-        static async void Execute()
+        static void Execute()
         {
             var tasks = new List<Task>();
 
-            var scheduleTask = Quartz.Impl.StdSchedulerFactory.GetDefaultScheduler();
-            var scheduler = scheduleTask.Result;
-
+            var scheduler = Quartz.Impl.StdSchedulerFactory.GetDefaultScheduler();
+            
             var config = (Configuration.DomainConfig)ConfigurationManager.GetSection("DomainConfig");
             var dogs = config.Dogs;
             foreach (Configuration.DogSection dog in dogs)
             {
-                Console.WriteLine($"Name={dog.Name}, Watch={dog.Watch}, CronScheduler={dog.CronScheduler}");
+                Console.WriteLine("Name={0}, Watch={1}, CronScheduler={2}", dog.Name, dog.Watch, dog.CronScheduler);
                 foreach (var sniff in dog.Sniffs)
                 {
-                    Console.WriteLine($"Loader={sniff.Loader}, Feeder={sniff.Feeder}");
+                    Console.WriteLine("Loader={0}, Feeder={1}", sniff.Loader, sniff.Feeder);
                 }
                 Console.WriteLine();
 
@@ -52,7 +51,7 @@ namespace EDC
                     .StartNow()
                     .Build();
 
-                tasks.Add(scheduler.ScheduleJob(job, jobTrigger));
+                scheduler.ScheduleJob(job, jobTrigger);
             }
 
             Task.WaitAll(tasks.ToArray());
@@ -60,16 +59,21 @@ namespace EDC
             if (tasks.Count > 0)
                 throw new Exception("Task is Alive");
 
-            await scheduler.Start();
+            scheduler.Start();
             Console.ReadLine();
 
             Console.WriteLine("Scheduler Stopping...");
-            await scheduler.PauseAll();
-            while ((await scheduler.GetCurrentlyExecutingJobs()).Count > 0)
+            scheduler.PauseAll();
+
+            //not require
+            while (scheduler.GetCurrentlyExecutingJobs().Count > 0)
             {
-                Console.WriteLine("Wait Paused...");
+                Console.WriteLine("Wait...");
                 System.Threading.Thread.Sleep(1000);
             }
+
+            //require
+            scheduler.Shutdown(true);
             
             Console.WriteLine("Press Enter Exit");
             Console.ReadLine();

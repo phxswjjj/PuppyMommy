@@ -1,6 +1,7 @@
 ﻿using Quartz;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,23 +15,38 @@ namespace EDC.Job
         public void Execute(IJobExecutionContext context)
         {
             var dog = (Configuration.DogSection)context.JobDetail.JobDataMap[JOBDATAKEY_DOG];
-            Console.WriteLine("Dog {0} is Running...", dog.Name);
+            Console.WriteLine("Dog {0} is Running & Watch {1}...", dog.Name, dog.Watch);
+
+            //check dir exists
+            var watchDir = new DirectoryInfo(dog.Watch);
+            if (!watchDir.Exists)
+                throw new DirectoryNotFoundException(dog.Watch);
 
             //do something
             var waitSecs = new Random().Next(5) + 3;
             System.Threading.Thread.Sleep(waitSecs * 1000);
 
-            //sniff
-            foreach(var sniff in dog.Sniffs)
+            foreach(var fileInfo in watchDir.GetFiles())
             {
-                Console.WriteLine("{0} do {1}", dog.Name, sniff.Loader);
-
-                var loader = Activator.CreateInstance(Type.GetType(sniff.Loader)) as Loader.ILoader;
-                if (loader == null)
-                    throw new Exception(string.Format("Dog {0} Sniff.Loader {1} is not implement Loader.ILoader", dog.Name, sniff.Loader));
+                SniffFile(fileInfo, dog.Sniffs);
             }
 
             Console.WriteLine("Dog {0} is Stopped", dog.Name);
+        }
+
+        void SniffFile(FileInfo fi, IEnumerable<Configuration.SniffSection> sniffs)
+        {
+            foreach (var sniff in sniffs)
+            {
+                var loader = Activator.CreateInstance(Type.GetType(sniff.Loader)) as Loader.ILoader;
+                if (loader == null)
+                    throw new Exception(string.Format("Sniff.Loader {0} is not implement Loader.ILoader", sniff.Loader));
+                
+                Common.FileResultBase parseFileContent;
+                var parseResult = loader.ParseFile(fi.FullName, out parseFileContent);
+                if (parseResult == Loader.ResultType.Fetch || parseResult == Loader.ResultType.Break)
+                    break;
+            }
         }
     }
 }

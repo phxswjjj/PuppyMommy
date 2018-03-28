@@ -11,7 +11,14 @@ namespace EDC.Loader
     {
         public ResultType ParseFile(string filePath, out FileResultBase fileResult)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("SimpleLoader Parse File {0}...", filePath);
+            System.Threading.Thread.Sleep(3000);
+
+            //parse file content to file result
+            var fileResultDetail = new SimpleFileResult();
+
+            fileResult = fileResultDetail;
+            return ResultType.Fetch;
         }
     }
 }

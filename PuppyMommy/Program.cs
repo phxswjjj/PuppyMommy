@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +15,35 @@ namespace EDC
         {
             try
             {
+                InitTestEnv();
+
                 Execute();
             }
             catch (Exception)
             {
-
                 throw;
             }
+        }
+
+        static void InitTestEnv()
+        {
+            if (!Directory.Exists("FanoutFPD"))
+                Directory.CreateDirectory("FanoutFPD");
+
+            if (!Directory.Exists("Nikon"))
+                Directory.CreateDirectory("Nikon");
+
+            if (!Directory.Exists("FanoutET"))
+                Directory.CreateDirectory("FanoutET");
+
+            if (!File.Exists(@"FanoutFPD\test.txt"))
+                File.AppendAllText(@"FanoutFPD\test.txt", "test");
+
+            if (!File.Exists(@"Nikon\test.txt"))
+                File.AppendAllText(@"Nikon\test.txt", "test");
+
+            if (!File.Exists(@"FanoutET\test.txt"))
+                File.AppendAllText(@"FanoutET\test.txt", "test");
         }
 
         static void Execute()

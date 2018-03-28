@@ -32,10 +32,12 @@ namespace EDC.Job
             }
 
             Console.WriteLine("Dog {0} is Stopped", dog.Name);
+            Console.WriteLine();
         }
 
         void SniffFile(FileInfo fi, IEnumerable<Configuration.SniffSection> sniffs)
         {
+            var isFetch = false;
             foreach (var sniff in sniffs)
             {
                 var loader = Activator.CreateInstance(Type.GetType(sniff.Loader)) as Loader.ILoader;
@@ -44,9 +46,17 @@ namespace EDC.Job
                 
                 Common.FileResultBase parseFileContent;
                 var parseResult = loader.ParseFile(fi.FullName, out parseFileContent);
-                if (parseResult == Loader.ResultType.Fetch || parseResult == Loader.ResultType.Break)
+                Console.WriteLine("{0} execute result: {1}", loader.GetType(), parseResult);
+                if (parseResult == Loader.ResultType.Fetch)
+                {
+                    isFetch = true;
+                    break;
+                }
+                else if (parseResult == Loader.ResultType.Break)
                     break;
             }
+            if (!isFetch)
+                Console.WriteLine("No Any Sniff Fetch");
         }
     }
 }

@@ -39,6 +39,9 @@ namespace EDC
             if (!File.Exists(@"FanoutFPD\test.txt"))
                 File.AppendAllText(@"FanoutFPD\test.txt", "test");
 
+            if (!File.Exists(@"FanoutFPD\test.csv"))
+                File.AppendAllText(@"FanoutFPD\test.csv", "test");
+
             if (!File.Exists(@"Nikon\test.txt"))
                 File.AppendAllText(@"Nikon\test.txt", "test");
 

@@ -18,7 +18,11 @@ namespace EDC.Loader
             var fileResultDetail = new SimpleFileResult();
 
             fileResult = fileResultDetail;
-            return ResultType.Fetch;
+
+            if (new Random().Next(100) % 50 == 0)
+                return ResultType.Fetch;
+            else
+                return ResultType.Skip;
         }
     }
 }

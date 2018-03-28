@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\FileResultBase.cs" />
+    <Compile Include="Common\NikonFileResult.cs" />
     <Compile Include="Common\SimpleFileResult.cs" />
     <Compile Include="Configuration\DogSection.cs" />
     <Compile Include="Configuration\DogsSection.cs" />

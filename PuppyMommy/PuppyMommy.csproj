@@ -77,7 +77,9 @@
     <Compile Include="Configuration\DomainConfig.cs" />
     <Compile Include="Configuration\SniffSection.cs" />
     <Compile Include="Feeder\ActionType.cs" />
+    <Compile Include="Feeder\FanoutFeeder.cs" />
     <Compile Include="Feeder\IFeeder.cs" />
+    <Compile Include="Feeder\NikonFeeder.cs" />
     <Compile Include="Feeder\ResultType.cs" />
     <Compile Include="Feeder\SimpleFeeder.cs" />
     <Compile Include="Job\SimpleJob.cs" />

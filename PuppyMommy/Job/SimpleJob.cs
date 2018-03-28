@@ -50,6 +50,11 @@ namespace EDC.Job
                 if (parseResult == Loader.ResultType.Fetch)
                 {
                     isFetch = true;
+
+                    var feeder = Activator.CreateInstance(Type.GetType(sniff.Feeder)) as Feeder.IFeeder;
+                    var feedResult = feeder.Save(parseFileContent);
+                    //ignore feed result
+
                     break;
                 }
                 else if (parseResult == Loader.ResultType.Break)

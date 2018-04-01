@@ -21,7 +21,6 @@ namespace EDC.Feeder
             if (result == ResultType.None)
                 result = Save(fileResult as NikonFileResult);
 
-            var simpleFileResult = fileResult as Common.SimpleFileResult;
             if(result == ResultType.None)
                 throw new Exception(string.Format("file result {0} is invalid", fileResult.GetType()));
             

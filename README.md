@@ -2,6 +2,9 @@
 WatchDog Platform.
 
 ## Structure
+### Sequence Diagram
+![Seq-JobExecute](docs/Seq-JobExecute.svg)
+
 ### Job
 Control every job executing, dispatch Loader, Feeder.
 
